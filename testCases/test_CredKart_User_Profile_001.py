@@ -1,10 +1,11 @@
+import allure
 import pytest
 from faker import Faker
 
-from utilities.Logger import log_generator_class  # user define class import
+from Utilities.Logger import log_generator_class  # user define class import
 from pageObjects.Login_Page import Login_Page_Class # user define class import
 from pageObjects.Registration_Page import Registration_Page_Class  # user define class import
-from utilities.Read_Config import ReadConfigClass  # user define class import
+from Utilities.Read_Config import ReadConfigClass  # user define class import
 
 @pytest.mark.usefixtures("browser_setup") # new
 class Test_User_Profile:
@@ -17,6 +18,16 @@ class Test_User_Profile:
     log = log_generator_class.loggen_method()
 
 
+    @allure.severity(allure.severity_level.CRITICAL)
+    @allure.title("Verify Application Url")
+    @allure.description("This test case is to validate credkart title functionality ")
+    @allure.link(home_page_url)
+    @allure.story("Story 1")
+    @allure.epic("Epic 1")
+    @pytest.mark.smoke
+    @pytest.mark.regression
+    @pytest.mark.flaky(reruns = 1 , reruns_delay = 1)
+    @pytest.mark.dependency(name="test_Credkart_URL_001")
     def test_Credkart_URL_001(self):
         # self.log.info("This is info")
         # self.log.warning("This is warning")
@@ -27,19 +38,35 @@ class Test_User_Profile:
         self.log.info(f"Opening Browser and landing on {self.home_page_url}")
         self.log.info(f"Checking page title")
         if self.driver.title == "CredKart":
+
             self.log.info(f"Page title is correct and landed on correct url -->{self.driver.title}")
             self.log.info("Taking screenshot")
             self.driver.save_screenshot(".\\Screenshots\\CredKart_Home_Page_pass.png")
+            allure.attach.file(".\\Screenshots\\CredKart_Home_Page_pass.png", name = "CredKart_Home_Page_pass", attachment_type= allure.attachment_type.PNG )
             self.log.info("Testcase test_Credkart_URL_001 is pass")
         else :
             self.log.info(f"Page title is incorrect and landed on url -->{self.driver.title}")
             self.log.info("Taking screenshot")
             self.driver.save_screenshot(".\\Screenshots\\CredKart_Home_Page_fail.png")
+            allure.attach.file(".\\Screenshots\\CredKart_Home_Page_fail.png", name="CredKart_Home_Page_fail",
+                               attachment_type=allure.attachment_type.PNG
+                               )
             self.log.info("Testcase test_Credkart_URL_001 is Fail")
             assert False
         self.log.info("Testcase test_Credkart_URL_001 is completed")
 
 
+    @allure.severity(allure.severity_level.CRITICAL)
+    @allure.title("Verify User Login")
+    @allure.description("This test case is to validate credkart user login functionality ")
+    @allure.link(login_url)
+    @allure.story("Story 2")
+    @allure.epic("Epic 1")
+    @pytest.mark.smoke
+    @pytest.mark.regression
+    @pytest.mark.user_profile
+    @pytest.mark.flaky(reruns=1, reruns_delay=1)
+    #@pytest.mark.dependency(depends =["test_Credkart_URL_001"])
     def test_Credkart_login_002(self):
         self.log.info("Testcase test_Credkart_login_002 is started")
         self.driver.get(self.login_url)
@@ -92,6 +119,9 @@ class Test_User_Profile:
             self.lp.click_logout()
             self.log.info(f"Taking screenshot for login pass")
             self.driver.save_screenshot(".\\Screenshots\\User_Login_pass.png")
+            allure.attach.file(".\\Screenshots\\User_Login_pass.png", name="User_Login_pass",
+                               attachment_type=allure.attachment_type.PNG
+                               )
             self.log.info("Testcase test_Credkart_login_002 is passed")
         else:
             self.log.info(f"login fail")
@@ -101,7 +131,17 @@ class Test_User_Profile:
             assert False
         self.log.info("Testcase test_Credkart_login_002 is completed")
 
-
+    @allure.severity(allure.severity_level.NORMAL)
+    @allure.title("Verify User Registration")
+    @allure.description("This test case is to validate credkart user registration functionality ")
+    @allure.link(registration_url)
+    @allure.story("Story 2")
+    @allure.epic("Epic 1")
+    @pytest.mark.smoke
+    @pytest.mark.regression
+    @pytest.mark.user_profile
+    @pytest.mark.flaky(reruns=1, reruns_delay=1)
+    #@pytest.mark.dependency(depends =["test_Credkart_URL_001"])
     def test_Credkart_Registration_003(self):
         self.log.info("Testcase test_Credkart_Registration_003 is started")
         self.driver.get(self.registration_url)
@@ -164,6 +204,9 @@ class Test_User_Profile:
             self.lp.click_logout()
             self.log.info(f"Taking screenshot for registration pass")
             self.driver.save_screenshot(".\\Screenshots\\User_registration_pass.png")
+            allure.attach.file(".\\Screenshots\\User_registration_pass.png", name="User_registration_pass",
+                               attachment_type=allure.attachment_type.PNG
+                               )
             self.log.info("Testcase test_Credkart_Registration_003 is passed")
         else:
             self.log.info(f"registration fail")
@@ -175,3 +218,4 @@ class Test_User_Profile:
 
 # pytest -v -s -n auto --html=HTMLReports/my_report.html --browser chrome
 # pytest -v -s -n auto --alluredir="AllureReports" --browser chrome
+# allure serve "AllureReports"

@@ -1,11 +1,12 @@
+import allure
 import pytest
 from faker import Faker
 
-from utilities import Excel_Utils
-from utilities.Logger import log_generator_class  # user define class import
+from Utilities import Excel_Utils
+from Utilities.Logger import log_generator_class  # user define class import
 from pageObjects.Login_Page import Login_Page_Class # user define class import
 from pageObjects.Registration_Page import Registration_Page_Class  # user define class import
-from utilities.Read_Config import ReadConfigClass  # user define class import
+from Utilities.Read_Config import ReadConfigClass  # user define class import
 
 @pytest.mark.usefixtures("browser_setup") # new
 class Test_User_Login_002:
@@ -16,7 +17,14 @@ class Test_User_Login_002:
     log = log_generator_class.loggen_method()
 
 
-
+    @allure.severity(allure.severity_level.BLOCKER)
+    @allure.title("Verify User login with DDT")
+    @allure.description("This test case is to validate credkart user login functionality with DDT")
+    @allure.link(login_url)
+    @allure.story("Story 2")
+    @allure.epic("Epic 1")
+    @pytest.mark.regression
+    @pytest.mark.user_profile
     def test_Credkart_login_params_004(self,credkart_login_data):
         self.log.info("Testcase test_Credkart_login_params_004 is started")
         self.driver.get(self.login_url)
@@ -63,6 +71,14 @@ class Test_User_Login_002:
         self.log.info("Testcase test_Credkart_login_params_004 is completed")
 
 
+    @allure.severity(allure.severity_level.NORMAL)
+    @allure.title("Verify User login with DDT excel")
+    @allure.description("This test case is to validate credkart user login functionality with DDT excel")
+    @allure.link(login_url)
+    @allure.story("Story 2")
+    @allure.epic("Epic 1")
+    @pytest.mark.regression
+    @pytest.mark.user_profile
     def test_Credkart_login_excel_005(self):
         excel_path = ".\\TestData\\Test_Data.xlsx"
         sheet_name = "Login_Data"
