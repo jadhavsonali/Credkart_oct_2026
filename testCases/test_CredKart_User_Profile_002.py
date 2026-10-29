@@ -2,11 +2,11 @@ import allure
 import pytest
 from faker import Faker
 
-from Utilities import Excel_Utils
-from Utilities.Logger import log_generator_class  # user define class import
+from utilities import Excel_Utils
+from utilities.Logger import log_generator_class  # user define class import
 from pageObjects.Login_Page import Login_Page_Class # user define class import
 from pageObjects.Registration_Page import Registration_Page_Class  # user define class import
-from Utilities.Read_Config import ReadConfigClass  # user define class import
+from utilities.Read_Config import ReadConfigClass  # user define class import
 
 @pytest.mark.usefixtures("browser_setup") # new
 class Test_User_Login_002:
